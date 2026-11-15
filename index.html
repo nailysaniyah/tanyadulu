@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sebelum Unggah, Tanya Dulu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Layout: platform satu halaman dengan navigasi atas; lima tampilan (Beranda, Cek, Kuis, Main, Tentang) dipilih lewat hash. Kerangka TANYA menjadi benang merah ketiga modul. */
+  --bg:#F3F7FB;
+  --card:#FFFFFF;
+  --ink:#22264B;
+  --muted:#5C6385;
+  --line:#DDE4F0;
+  --teal:#0E9384;
+  --teal-dk:#0A6F64;
+  --sun:#FFB627;
+  --coral:#F25F5C;
+  --plum:#6B4BC2;
+  --sky:#E5F4F2;
+  --font-display:"Baloo 2","Fredoka","Nunito",system-ui,sans-serif;
+  --font-body:"Nunito",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:#DDF1FF;font-weight:600;color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.55}
+h1,h2,h3,h4{font-family:var(--font-display);line-height:1.1;margin:0;text-wrap:balance;font-weight:800;letter-spacing:-.01em}
+p{margin:0}
+a{color:var(--teal-dk)}
+button{font:inherit}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.94);backdrop-filter:blur(6px);border-bottom:2px solid var(--line)}
+.nav-in{max-width:1040px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);margin-right:auto}
+.brand svg{width:40px;height:40px}
+.brand b{font-family:var(--font-display);font-size:1.15rem;font-weight:700;line-height:1}
+.brand small{display:block;color:var(--muted);font-size:.75rem;font-weight:700}
+.menu{display:flex;gap:4px;flex-wrap:wrap}
+.menu a{padding:8px 12px;border-radius:10px;text-decoration:none;color:var(--muted);font-weight:800;font-size:.92rem}
+.menu a.on{background:var(--sky);color:var(--teal-dk)}
+@media (max-width:700px){.menu{width:100%;justify-content:space-between}.menu a{padding:7px 8px;font-size:.85rem}}
+
+main{max-width:1040px;margin:0 auto;padding:24px 16px 56px}
+.view{display:flex;flex-direction:column;gap:22px}
+.view[hidden]{display:none}
+.card{background:var(--card);border:2px solid var(--line);border-radius:20px;padding:22px}
+.eyebrow{font-weight:800;font-size:.78rem;letter-spacing:.07em;text-transform:uppercase;color:var(--teal)}
+.muted{color:var(--muted)}
+.head{display:flex;flex-direction:column;gap:6px;max-width:68ch}
+.head h1{font-size:2rem}
+.head h2{font-size:1.6rem}
+
+.btn{border:0;border-radius:14px;padding:12px 20px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;transition:transform .1s}
+.btn:active{transform:translateY(2px)}
+.btn-pri{background:var(--teal);color:#fff;box-shadow:0 4px 0 var(--teal-dk)}
+.btn-sun{background:var(--sun);color:var(--ink);box-shadow:0 4px 0 #C98500}
+.btn-ghost{background:#EEF2F8;color:var(--ink);border:2px solid var(--line)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.between{justify-content:space-between}
+
+/* home */
+.hero{display:grid;grid-template-columns:1.25fr 1fr;gap:24px;align-items:center;background:linear-gradient(135deg,#E5F4F2,#FFF3D6);border:2px solid var(--line);border-radius:26px;padding:28px}
+.hero h1{font-size:2.4rem;font-weight:700}
+.hero h1 em{font-style:normal;color:var(--teal)}
+.hero p{margin-top:12px;color:var(--muted);max-width:56ch;font-size:1.05rem}
+.hero .row{margin-top:18px}
+.hero-art{max-width:300px;width:100%;justify-self:center}
+@media (max-width:760px){.hero{grid-template-columns:1fr}.hero h1{font-size:1.9rem}.hero-art{max-width:200px;order:-1}}
+.mods{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media (max-width:760px){.mods{grid-template-columns:1fr}}
+.mod{display:flex;flex-direction:column;gap:10px;text-decoration:none;color:var(--ink);background:var(--card);border:2px solid var(--line);border-radius:20px;padding:20px;border-top:8px solid var(--c)}
+.mod:hover{border-color:var(--c)}
+.mod .for{font-size:.78rem;font-weight:800;color:var(--c);text-transform:uppercase;letter-spacing:.06em}
+.mod h3{font-size:1.3rem}
+.mod p{color:var(--muted);font-size:.95rem;flex:1}
+.mod span.go{font-weight:800;color:var(--c)}
+.tanya{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+@media (max-width:760px){.tanya{grid-template-columns:1fr}}
+.t-item{border-radius:16px;padding:14px;background:#F8FAFD;border:2px solid var(--line);display:flex;flex-direction:column;gap:4px}
+.t-letter{font-family:var(--font-display);font-weight:700;font-size:2rem;line-height:1;color:var(--teal)}
+.t-item b{font-size:1rem}
+.t-item span:not(.t-letter){font-size:.88rem;color:var(--muted)}
+.quote{border-left:6px solid var(--plum);background:#F3EFFC;padding:16px 18px;border-radius:14px}
+.quote p{font-size:1.05rem}
+
+/* cek */
+.seg{display:inline-flex;background:#EEF2F8;border-radius:14px;padding:4px;gap:4px;border:2px solid var(--line)}
+.seg button{border:0;background:none;padding:9px 14px;border-radius:10px;font-weight:800;color:var(--muted);cursor:pointer}
+.seg button[aria-pressed="true"]{background:#fff;color:var(--teal-dk);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.qgroup{display:flex;flex-direction:column;gap:10px}
+.qgroup-h{display:flex;align-items:center;gap:10px}
+.qgroup-h .t-letter{font-size:1.6rem;width:42px;height:42px;display:grid;place-items:center;background:var(--sky);border-radius:12px}
+.qgroup-h h3{font-size:1.15rem}
+.q{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;border:2px solid var(--line);border-radius:14px;padding:12px 14px}
+.q.lembaga{border-style:dashed}
+.q p{font-weight:700}
+.q small{display:block;color:var(--muted);font-weight:600;margin-top:2px}
+@media (max-width:640px){.q{grid-template-columns:1fr}}
+.ans{display:flex;gap:6px}
+.ans label{position:relative}
+.ans input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.ans span{display:inline-block;padding:8px 12px;border-radius:10px;border:2px solid var(--line);font-weight:800;font-size:.88rem;background:#F8FAFD;cursor:pointer;min-width:62px;text-align:center}
+.ans input:focus-visible+span{outline:3px solid var(--sun);outline-offset:2px}
+.ans input:checked+span.y{background:#DDF3EA;border-color:#2FA872;color:#14663F}
+.ans input:checked+span.r{background:#FFF1CC;border-color:#E9A800;color:#7A5300}
+.ans input:checked+span.n{background:#FFE3E2;border-color:var(--coral);color:#9E2523}
+.tag-l{font-size:.72rem;font-weight:800;color:var(--plum);background:#EFEAFB;border-radius:6px;padding:1px 6px;margin-left:6px;vertical-align:middle}
+.prog{position:sticky;top:64px;z-index:5;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:10px 14px;display:flex;align-items:center;gap:12px;font-weight:800;font-size:.9rem}
+@media (max-width:700px){.prog{top:96px}}
+.bar{flex:1;height:10px;background:var(--line);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--teal);transition:width .2s}
+.verdict{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;border-radius:20px;padding:22px;border:2px solid}
+@media (max-width:560px){.verdict{grid-template-columns:1fr;text-align:center;justify-items:center}}
+.v-ok{background:#EAF8F1;border-color:#9ADBBD}
+.v-mid{background:#FFF7E0;border-color:#FFD979}
+.v-hi{background:#FFECEB;border-color:#F7A9A7}
+.meter{width:150px;height:150px}
+.meter text{font-family:var(--font-display)}
+.verdict h3{font-size:1.6rem}
+.fixes{display:flex;flex-direction:column;gap:10px;list-style:none;margin:0;padding:0}
+.fixes li{display:grid;grid-template-columns:36px 1fr;gap:12px;align-items:start;border:2px solid var(--line);border-radius:14px;padding:12px 14px;background:#fff}
+.fixes .lt{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-family:var(--font-display);font-weight:700;color:#fff}
+.fixes b{display:block}
+.fixes span{color:var(--muted);font-size:.93rem}
+
+/* photo tool */
+.photo{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+@media (max-width:760px){.photo{grid-template-columns:1fr}}
+.drop{border:3px dashed var(--line);border-radius:16px;padding:22px;text-align:center;display:flex;flex-direction:column;gap:10px;align-items:center;background:#F8FAFD}
+.drop input{max-width:100%}
+.canvas-wrap{position:relative;border-radius:14px;overflow:hidden;background:#EEF2F8;border:2px solid var(--line);touch-action:none}
+.canvas-wrap canvas{display:block;width:100%;height:auto;cursor:crosshair}
+.out img{max-width:100%;border-radius:12px;border:2px solid var(--line)}
+.hint{font-size:.88rem;color:var(--muted)}
+
+/* kuis */
+.quiz{max-width:720px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.qnum{display:flex;justify-content:space-between;font-weight:800;color:var(--muted);font-size:.9rem}
+.qtext{font-size:1.25rem;font-family:var(--font-display);font-weight:600}
+.choices{display:flex;flex-direction:column;gap:10px}
+.choice{text-align:left;border:2px solid var(--line);background:#F8FAFD;border-radius:14px;padding:14px 16px;font-weight:700;cursor:pointer;display:flex;gap:12px;align-items:flex-start;color:var(--ink)}
+.choice .k{flex:none;width:28px;height:28px;border-radius:8px;background:#fff;border:2px solid var(--line);display:grid;place-items:center;font-family:var(--font-display)}
+.choice:hover:not(:disabled){border-color:var(--teal)}
+.choice.right{background:#DDF3EA;border-color:#2FA872}
+.choice.wrong{background:#FFE3E2;border-color:var(--coral)}
+.choice:disabled{cursor:default}
+.fb{border-radius:14px;padding:14px 16px;font-weight:600}
+.fb.good{background:#EAF8F1;border:2px solid #9ADBBD}
+.fb.bad{background:#FFF4E5;border:2px solid #FFD38A}
+.profile{text-align:center;display:flex;flex-direction:column;gap:12px;align-items:center}
+.profile .badge{width:140px;height:140px}
+.profile h3{font-size:1.8rem}
+.recap{display:flex;flex-direction:column;gap:8px;list-style:none;padding:0;margin:0;text-align:left;width:100%}
+.recap li{display:grid;grid-template-columns:28px 1fr;gap:10px;padding:10px 12px;border-radius:12px;background:#F8FAFD;border:2px solid var(--line);font-size:.93rem}
+.recap .ic{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:800}
+
+/* game */
+.game{max-width:720px;width:100%;margin:0 auto;background:linear-gradient(180deg,#DFF3FF 0%,#F2FBF6 100%);border:3px solid #BFE3F2;border-radius:28px;padding:22px;display:flex;flex-direction:column;gap:16px;align-items:center;text-align:center}
+.stars{display:flex;gap:4px;font-size:1.6rem;min-height:2rem}
+.stars .s{color:#D7DEE8}
+.stars .s.on{color:var(--sun)}
+.scene{background:#fff;border-radius:22px;padding:20px;width:100%;display:flex;flex-direction:column;gap:12px;align-items:center;border:3px solid #fff;box-shadow:0 6px 0 #CFE6EF}
+.scene .pic{font-size:4.6rem;line-height:1.1}
+.scene p{font-size:1.3rem;font-family:var(--font-display);font-weight:600;max-width:30ch}
+.big{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%}
+.big button{border:0;border-radius:22px;padding:18px 10px;font-family:var(--font-display);font-weight:700;font-size:1.35rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px}
+.big button span{font-size:2.4rem;line-height:1}
+.b-yes{background:#2FA872;color:#fff;box-shadow:0 6px 0 #1E7A51}
+.b-ask{background:var(--sun);color:var(--ink);box-shadow:0 6px 0 #C98500}
+.big button:disabled{opacity:.45}
+.mascot{width:110px;height:110px}
+.speech{background:#fff;border-radius:18px;padding:12px 16px;font-weight:700;position:relative;border:2px solid #CFE6EF;max-width:42ch}
+.sound{background:#fff;border:2px solid #CFE6EF;border-radius:12px;padding:8px 12px;font-weight:800;cursor:pointer;color:var(--ink)}
+.pop{animation:pop .35s ease}
+@keyframes pop{0%{transform:scale(.9)}60%{transform:scale(1.04)}100%{transform:scale(1)}}
+
+/* about */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:760px){.grid2{grid-template-columns:1fr}}
+.about h3{font-size:1.2rem;margin-bottom:8px}
+.about ul{margin:0;padding-left:20px}
+.about li{margin:4px 0}
+.copybox{width:100%;min-height:140px;font:inherit;font-size:.85rem;border:2px solid var(--line);border-radius:12px;padding:10px}
+.toast{font-weight:800;color:var(--teal-dk)}
+footer{max-width:1040px;margin:0 auto;padding:0 16px 32px;color:var(--muted);font-size:.85rem;text-align:center}
+
+/* ===== keceriaan ===== */
+
+/* ===== latar langit ===== */
+.sky{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;background:linear-gradient(180deg,#A9DCFF 0%,#D6EFFF 40%,#FFF4DA 100%)}
+.sun{position:absolute;top:70px;right:6%;width:110px;height:110px}
+.sun .rays{transform-box:fill-box;transform-origin:center;animation:spin 30s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.cloud{position:absolute;left:0;width:150px;height:46px;background:#fff;border-radius:50px;opacity:.95;animation:drift linear infinite}
+.cloud::before,.cloud::after{content:"";position:absolute;background:#fff;border-radius:50%}
+.cloud::before{width:64px;height:64px;left:22px;top:-32px}
+.cloud::after{width:48px;height:48px;left:76px;top:-20px}
+.c1{top:110px;animation-duration:70s;animation-delay:-10s}
+.c2{top:260px;transform:scale(.7);animation-duration:95s;animation-delay:-50s;opacity:.85}
+.c3{top:420px;transform:scale(1.15);animation-duration:85s;animation-delay:-30s;opacity:.8}
+.c4{top:40px;transform:scale(.55);animation-duration:110s;animation-delay:-80s;opacity:.9}
+@keyframes drift{from{transform:translateX(-220px)}to{transform:translateX(calc(100vw + 60px))}}
+.hills{position:absolute;left:0;right:0;bottom:0;width:100%;height:190px}
+.balloon{position:absolute;bottom:-160px;width:52px;animation:rise linear infinite}
+.b1{left:4%;animation-duration:26s;animation-delay:-4s}
+.b2{left:91%;animation-duration:32s;animation-delay:-18s}
+.b3{left:14%;animation-duration:38s;animation-delay:-27s}
+@keyframes rise{0%{transform:translate(0,0) rotate(-4deg)}50%{transform:translate(18px,-60vh) rotate(4deg)}100%{transform:translate(-10px,-125vh) rotate(-4deg)}}
+.tw{position:absolute;color:#fff;font-size:18px;animation:twinkle 2.6s ease-in-out infinite}
+/* ===== sentuhan ceria ===== */
+.nav{border-bottom:0}
+.nav::after{content:"";display:block;height:6px;background:repeating-linear-gradient(90deg,#F25F5C 0 40px,#FFB627 40px 80px,#2FA872 80px 120px,#2F6FED 120px 160px,#6B4BC2 160px 200px)}
+.brand b{font-size:1.35rem;font-weight:800;color:var(--teal-dk)}
+.hero h1{font-weight:800;line-height:1.22;text-shadow:3px 3px 0 #FFE29A}
+.hero h1 em{text-decoration:underline wavy #FFB627;text-decoration-thickness:4px;text-underline-offset:8px}
+.head h1{font-size:2.3rem;text-shadow:3px 3px 0 #fff}
+.eyebrow{display:inline-block;align-self:flex-start;background:#fff;border:2px solid currentColor;border-radius:999px;padding:3px 12px;transform:rotate(-2deg);letter-spacing:.05em}
+.hero,.card,.mod,.game{box-shadow:0 8px 0 rgba(34,38,75,.07)}
+.card,.mod{border-radius:26px}
+.btn,.big button,.choice,.seg button,.sound,.menu a{font-family:var(--font-display);font-weight:800;letter-spacing:.01em}
+.btn{font-size:1.05rem;border-radius:18px}
+.qtext,.scene p{font-family:var(--font-display);font-weight:700}
+.t-item b,.mod h3,.qgroup-h h3{font-family:var(--font-display);font-weight:800}
+footer{font-weight:700;color:#3F4A6B}
+
+svg .float,svg .blink,svg .twinkle,svg .bob{transform-box:fill-box;transform-origin:center}
+.float{animation:float 3.2s ease-in-out infinite}
+.bob{animation:float 2.4s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.blink{animation:blink 4.2s infinite}
+@keyframes blink{0%,91%,100%{transform:scaleY(1)}94%{transform:scaleY(.08)}}
+svg .wave{transform-box:view-box;animation:wave 1.4s ease-in-out infinite}
+@keyframes wave{0%,100%{transform:rotate(0)}50%{transform:rotate(-28deg)}}
+.twinkle{animation:twinkle 2.2s ease-in-out infinite}
+.twinkle.d2{animation-delay:.7s}.twinkle.d3{animation-delay:1.3s}
+@keyframes twinkle{0%,100%{transform:scale(1) rotate(0);opacity:1}50%{transform:scale(.55) rotate(25deg);opacity:.55}}
+.btn{transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.mod{transition:transform .2s,border-color .2s}
+.mod:hover{transform:translateY(-5px) rotate(-.8deg)}
+.mod .ico{width:64px;height:64px}
+.t-item{transition:transform .2s}
+.t-item:hover{transform:rotate(-2deg) scale(1.04)}
+.t-item .t-letter{width:50px;height:50px;border-radius:50%;display:grid;place-items:center;color:#fff;background:var(--lc);font-size:1.7rem;box-shadow:0 4px 0 rgba(0,0,0,.12)}
+.mascot{width:120px;height:125px;overflow:visible}
+.mascot.sm{width:84px;height:88px}
+.badge-wrap{width:150px;height:150px;border-radius:50%;display:grid;place-items:center}
+.verdict{grid-template-columns:auto 1fr auto}
+.verdict .mascot{width:96px;height:100px}
+@media (max-width:560px){.verdict{grid-template-columns:1fr}}
+.shake{animation:shake .45s}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-10px)}40%{transform:translateX(9px)}60%{transform:translateX(-6px)}80%{transform:translateX(4px)}}
+.bounce-in{animation:bin .55s cubic-bezier(.3,1.6,.5,1)}
+@keyframes bin{0%{transform:scale(.4);opacity:0}100%{transform:scale(1);opacity:1}}
+.scene .pic{display:inline-block;animation:float 2.6s ease-in-out infinite}
+.dots{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.dots i{width:16px;height:16px;border-radius:50%;background:#D7DEE8;transition:transform .2s}
+.dots i.ok{background:var(--sun)}
+.dots i.help{background:#9FD9F0}
+.dots i.cur{background:var(--teal);transform:scale(1.35)}
+.speech{position:relative}
+.speech::after{content:"";position:absolute;left:50%;top:-10px;margin-left:-10px;border:10px solid transparent;border-top:0;border-bottom-color:inherit}
+.speech.tail-none::after{display:none}
+.namebox{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.namebox input{font:inherit;font-family:var(--font-display);font-size:1.2rem;padding:12px 16px;border-radius:16px;border:3px solid #CFE6EF;text-align:center;width:220px;color:var(--ink)}
+.stars .s{transition:transform .3s}
+.stars .s.on{animation:bin .5s cubic-bezier(.3,1.6,.5,1)}
+.medal{display:flex;flex-direction:column;align-items:center;gap:6px;background:#fff;border-radius:24px;padding:18px 22px;border:3px dashed var(--sun)}
+.medal b{font-family:var(--font-display);font-size:1.25rem}
+svg .beak{transform-box:fill-box;transform-origin:center top}
+#game.talking .mascot .beak{animation:talk .22s ease-in-out infinite}
+@keyframes talk{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.45) translateY(1px)}}
+#game.talking .speech{border-color:#0E9384}
+.audio-ctl{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.audio-ctl button{background:#fff;border:2px solid #CFE6EF;border-radius:999px;padding:6px 14px;font-weight:800;cursor:pointer;color:var(--ink)}
+.audio-ctl button[aria-pressed="false"]{opacity:.55;text-decoration:line-through}
+.fab-tip{position:fixed;right:18px;bottom:84px;z-index:40;background:#fff;color:var(--ink);border:3px solid var(--plum);border-radius:16px;padding:8px 12px;font-family:var(--font-display);font-weight:700;font-size:.95rem;box-shadow:0 6px 16px rgba(34,38,75,.15);animation:float 1.8s ease-in-out infinite}
+.fab-tip::after{content:"";position:absolute;right:34px;bottom:-11px;border:9px solid transparent;border-bottom:0;border-top-color:var(--plum)}
+.fab{position:fixed;right:18px;bottom:18px;z-index:40;display:flex;align-items:center;gap:6px;border:3px solid #fff;background:var(--plum);color:#fff;border-radius:999px;padding:10px 16px 10px 12px;font-family:var(--font-display);font-weight:800;font-size:1rem;cursor:pointer;box-shadow:0 6px 0 #4A3190,0 10px 24px rgba(34,38,75,.18)}
+.fab span{font-size:1.4rem;line-height:1;display:inline-block;animation:float 1.6s ease-in-out infinite}
+.fab[aria-pressed="false"]{background:#8A90A8;box-shadow:0 6px 0 #6B7088}
+.fab[aria-pressed="false"] span{animation:none}
+.fab:active{transform:translateY(3px)}
+@media (max-width:560px){.fab b{display:none}.fab{padding:10px 12px}}
+#fx{position:fixed;inset:0;pointer-events:none;z-index:50;width:100%;height:100%}
+.hero-title-wiggle{display:inline-block;animation:float 3s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="sky" aria-hidden="true">
+  <svg class="sun" viewBox="0 0 120 120"><g class="rays" stroke="#FFC93C" stroke-width="7" stroke-linecap="round"><path d="M60 4v16M60 100v16M4 60h16M100 60h16M20 20l11 11M89 89l11 11M20 100l11-11M89 31l11-11"/></g><circle cx="60" cy="60" r="30" fill="#FFD54F"/><circle cx="50" cy="56" r="3.5" fill="#22264B"/><circle cx="70" cy="56" r="3.5" fill="#22264B"/><path d="M50 67q10 9 20 0" stroke="#22264B" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="44" cy="65" r="4" fill="#FF9AA2" opacity=".7"/><circle cx="76" cy="65" r="4" fill="#FF9AA2" opacity=".7"/></svg>
+  <div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div><div class="cloud c4"></div>
+  <span class="tw" style="top:180px;left:30%">✦</span><span class="tw" style="top:90px;left:58%;animation-delay:.8s">✦</span><span class="tw" style="top:330px;left:80%;animation-delay:1.5s">✦</span>
+  <svg class="balloon b1" viewBox="0 0 60 130"><ellipse cx="30" cy="30" rx="24" ry="29" fill="#F25F5C"/><ellipse cx="22" cy="20" rx="6" ry="9" fill="#fff" opacity=".45"/><path d="M27 58h6l-3 5z" fill="#F25F5C"/><path d="M30 63q-8 18 2 34t-4 32" stroke="#8890A8" stroke-width="1.5" fill="none"/></svg>
+  <svg class="balloon b2" viewBox="0 0 60 130"><ellipse cx="30" cy="30" rx="24" ry="29" fill="#6B4BC2"/><ellipse cx="22" cy="20" rx="6" ry="9" fill="#fff" opacity=".45"/><path d="M27 58h6l-3 5z" fill="#6B4BC2"/><path d="M30 63q-8 18 2 34t-4 32" stroke="#8890A8" stroke-width="1.5" fill="none"/></svg>
+  <svg class="balloon b3" viewBox="0 0 60 130"><ellipse cx="30" cy="30" rx="24" ry="29" fill="#FFB627"/><ellipse cx="22" cy="20" rx="6" ry="9" fill="#fff" opacity=".45"/><path d="M27 58h6l-3 5z" fill="#FFB627"/><path d="M30 63q-8 18 2 34t-4 32" stroke="#8890A8" stroke-width="1.5" fill="none"/></svg>
+  <svg class="hills" viewBox="0 0 1440 190" preserveAspectRatio="none"><path d="M0 110 Q240 30 480 100 T960 90 T1440 80 V190 H0z" fill="#A8E6CF"/><path d="M0 150 Q300 80 620 140 T1200 120 T1440 130 V190 H0z" fill="#6FCF97"/><g fill="#fff"><circle cx="160" cy="160" r="4"/><circle cx="420" cy="170" r="4"/><circle cx="880" cy="165" r="4"/><circle cx="1260" cy="160" r="4"/></g><g fill="#FFB627"><circle cx="160" cy="160" r="1.8"/><circle cx="420" cy="170" r="1.8"/><circle cx="880" cy="165" r="1.8"/><circle cx="1260" cy="160" r="1.8"/></g></svg>
+</div>
+
+<nav class="nav" aria-label="Navigasi utama">
+  <div class="nav-in">
+    <a class="brand" href="#beranda">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="34" r="26" fill="#0E9384"/><path d="M14 16l8 8M50 16l-8 8" stroke="#0E9384" stroke-width="6" stroke-linecap="round"/><circle cx="23" cy="31" r="9" fill="#fff"/><circle cx="41" cy="31" r="9" fill="#fff"/><circle cx="24" cy="32" r="4" fill="#22264B"/><circle cx="40" cy="32" r="4" fill="#22264B"/><path d="M28 41l4 5 4-5z" fill="#FFB627"/></svg>
+      <span><b>Tanya Dulu</b><small>Sebelum Unggah, Tanya Dulu</small></span>
+    </a>
+    <div class="menu" id="menu">
+      <a href="#beranda" data-r="beranda">Beranda</a>
+      <a href="#cek" data-r="cek">Cek Unggahan</a>
+      <a href="#kuis" data-r="kuis">Kuis Orang Tua</a>
+      <a href="#main" data-r="main">Main Anak</a>
+      <a href="#tentang" data-r="tentang">Tentang</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+<!-- ============ BERANDA ============ -->
+<section class="view" id="v-beranda">
+  <div class="hero">
+    <div>
+      <span class="eyebrow">Platform literasi digital anak usia dini</span>
+      <h1>Setiap unggahan adalah <em>arsip digital</em> anak. Jaga sebelum terlanjur! <span class="hero-title-wiggle" aria-hidden="true">🦉</span></h1>
+      <p>Foto anak yang diunggah hari ini dapat tetap tersimpan hingga ia dewasa. Platform ini membantu orang tua dan lembaga PAUD menimbang setiap unggahan, sekaligus mengajak anak belajar berkata "tanya dulu".</p>
+      <div class="row">
+        <a class="btn btn-pri" href="#cek">Cek unggahan saya</a>
+        <a class="btn btn-sun" href="#main">Main bersama anak</a>
+      </div>
+    </div>
+    <svg class="hero-art" viewBox="0 0 300 260" aria-hidden="true">
+      <rect x="40" y="20" width="150" height="220" rx="24" fill="#22264B"/>
+      <rect x="52" y="40" width="126" height="170" rx="10" fill="#fff"/>
+      <rect x="64" y="54" width="102" height="80" rx="8" fill="#BFE3F2"/>
+      <circle cx="115" cy="88" r="18" fill="#FFD9B8"/>
+      <path d="M97 134c2-16 34-16 36 0z" fill="#F25F5C"/>
+      <rect x="64" y="146" width="70" height="8" rx="4" fill="#DDE4F0"/>
+      <rect x="64" y="160" width="50" height="8" rx="4" fill="#DDE4F0"/>
+      <rect x="64" y="180" width="102" height="20" rx="10" fill="#0E9384"/>
+      <text x="115" y="194" text-anchor="middle" font-family="Nunito" font-weight="800" font-size="11" fill="#fff">UNGGAH?</text>
+      <g class="twinkle"><path d="M22 60l5 10 11 2-8 8 2 11-10-5-10 5 2-11-8-8 11-2z" fill="#FFB627"/></g>
+      <g class="twinkle d2"><path d="M268 210c-6-10-22-6-18 6 3 8 18 18 18 18s15-10 18-18c4-12-12-16-18-6z" fill="#F25F5C"/></g>
+      <g class="twinkle d3"><circle cx="20" cy="200" r="7" fill="#6B4BC2"/></g>
+      <g class="twinkle d2"><path d="M280 110l3 7 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z" fill="#0E9384"/></g>
+      <g transform="translate(176 112)" id="hero-owl"></g>
+      <g transform="translate(206 40)"><g class="bob"><rect width="84" height="54" rx="16" fill="#FFB627"/><path d="M20 54l-4 14 16-14z" fill="#FFB627"/><text x="42" y="34" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="17" fill="#22264B">Tanya dulu!</text></g></g>
+    </svg>
+  </div>
+
+  <div class="mods">
+    <a class="mod" href="#cek" style="--c:#0E9384">
+      <svg class="ico" viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="16" width="44" height="34" rx="8" fill="#0E9384"/><rect x="18" y="10" width="16" height="9" rx="3" fill="#0E9384"/><circle cx="28" cy="33" r="10" fill="#fff"/><circle cx="28" cy="33" r="5" fill="#22264B"/><path d="M44 30l14 5v9c0 8-6 13-14 16-8-3-14-8-14-16v-9z" fill="#FFB627" stroke="#fff" stroke-width="3"/><path d="M38 44l5 5 8-9" stroke="#22264B" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="for">Untuk orang tua dan lembaga PAUD</span>
+      <h3>Cek Sebelum Unggah</h3>
+      <p>Jawab pertanyaan singkat berdasarkan kerangka TANYA, lalu dapatkan skor risiko, saran perbaikan, dan alat untuk menyamarkan bagian foto.</p>
+      <span class="go">Mulai cek →</span>
+    </a>
+    <a class="mod" href="#kuis" style="--c:#6B4BC2">
+      <svg class="ico" viewBox="0 0 64 64" aria-hidden="true"><path d="M8 14c0-4 3-7 7-7h30c4 0 7 3 7 7v22c0 4-3 7-7 7H28l-12 10v-10h-1c-4 0-7-3-7-7z" fill="#6B4BC2"/><text x="30" y="35" text-anchor="middle" font-family="Fredoka,sans-serif" font-weight="700" font-size="26" fill="#fff">?</text><circle cx="52" cy="46" r="10" fill="#FFB627"/><path d="M47 46l4 4 6-7" stroke="#22264B" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="for">Untuk orang tua dan guru</span>
+      <h3>Kuis Bijak Berbagi</h3>
+      <p>Sepuluh situasi sehari-hari yang menguji pemahaman tentang jejak digital anak, lengkap dengan penjelasan dan profil hasil.</p>
+      <span class="go">Ikuti kuis →</span>
+    </a>
+    <a class="mod" href="#main" style="--c:#E39A00">
+      <svg class="ico" viewBox="0 0 64 64" aria-hidden="true"><rect x="4" y="20" width="56" height="30" rx="15" fill="#FFB627"/><path d="M16 29v12M10 35h12" stroke="#22264B" stroke-width="4" stroke-linecap="round"/><circle cx="44" cy="31" r="4" fill="#F25F5C"/><circle cx="51" cy="38" r="4" fill="#0E9384"/><path d="M32 4l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z" fill="#F25F5C"/></svg>
+      <span class="for">Untuk anak 4–6 tahun, didampingi</span>
+      <h3>Main "Boleh atau Tanya Dulu?"</h3>
+      <p>Anak memilih jawaban untuk delapan situasi di dunia digital bersama Si Tanya, burung hantu yang bisa berbicara.</p>
+      <span class="go">Ayo main →</span>
+    </a>
+  </div>
+
+  <div class="card" style="display:flex;flex-direction:column;gap:14px">
+    <div class="head">
+      <span class="eyebrow">Kerangka berpikir</span>
+      <h2>Lima pertanyaan TANYA sebelum mengunggah</h2>
+      <p class="muted">Kerangka ini dipakai di seluruh modul agar orang tua, guru, dan anak memakai bahasa yang sama.</p>
+    </div>
+    <div class="tanya">
+      <div class="t-item" style="--lc:#0E9384"><span class="t-letter">T</span><b>Tujuan</b><span>Untuk apa foto ini diunggah?</span></div>
+      <div class="t-item" style="--lc:#6B4BC2"><span class="t-letter">A</span><b>Anak setuju</b><span>Sudahkah anak ditanya dan dihormati?</span></div>
+      <div class="t-item" style="--lc:#E39A00"><span class="t-letter">N</span><b>Nampak identitas</b><span>Adakah nama, sekolah, atau lokasi yang terlihat?</span></div>
+      <div class="t-item" style="--lc:#2F6FED"><span class="t-letter">Y</span><b>Yang melihat</b><span>Siapa saja yang dapat melihat dan menyimpannya?</span></div>
+      <div class="t-item" style="--lc:#F25F5C"><span class="t-letter">A</span><b>Akan berdampak</b><span>Bagaimana jika foto ini ditemukan saat anak remaja?</span></div>
+    </div>
+  </div>
+
+  <div class="quote">
+    <p><b>Mengapa disebut arsip?</b> Foto anak di media sosial adalah arsip pribadi milik anak, tetapi pencipta dan penguasanya adalah orang dewasa, yaitu orang tua atau lembaga. Karena itu, orang dewasalah yang bertanggung jawab memutuskan apa yang direkam, siapa yang boleh mengakses, dan berapa lama arsip itu disimpan.</p>
+  </div>
+</section>
+
+<!-- ============ CEK ============ -->
+<section class="view" id="v-cek" hidden>
+  <div class="head">
+    <span class="eyebrow">Modul 1</span>
+    <h1>Cek Sebelum Unggah</h1>
+    <p class="muted">Bayangkan satu foto atau video anak yang ingin Anda unggah. Jawab setiap pernyataan dengan jujur. Tidak ada data yang dikirim ke mana pun.</p>
+  </div>
+
+  <div class="card" style="display:flex;flex-direction:column;gap:18px" id="cek-form">
+    <div class="row between">
+      <div>
+        <b>Saya mengunggah sebagai</b>
+        <p class="hint">Mode lembaga menambahkan empat pernyataan khusus satuan PAUD.</p>
+      </div>
+      <div class="seg" role="group" aria-label="Peran pengunggah">
+        <button type="button" id="mode-ortu" aria-pressed="true">Orang tua</button>
+        <button type="button" id="mode-lembaga" aria-pressed="false">Lembaga PAUD</button>
+      </div>
+    </div>
+    <div class="prog"><span id="cek-prog-t">0 dari 0 dijawab</span><div class="bar"><i id="cek-prog"></i></div></div>
+    <div id="cek-qs" style="display:flex;flex-direction:column;gap:22px"></div>
+    <p id="cek-err" style="color:#B3261E;font-weight:800" hidden></p>
+    <div class="row between">
+      <button type="button" class="btn btn-ghost" id="cek-reset">Ulangi dari awal</button>
+      <button type="button" class="btn btn-pri" id="cek-go">Lihat hasil cek →</button>
+    </div>
+  </div>
+
+  <div id="cek-result" hidden style="display:flex;flex-direction:column;gap:18px"></div>
+
+  <div class="card" style="display:flex;flex-direction:column;gap:14px">
+    <div class="head">
+      <span class="eyebrow">Alat bantu</span>
+      <h2>Samarkan bagian foto</h2>
+      <p class="muted">Pilih foto, lalu tarik kotak di atas bagian yang ingin disamarkan, misalnya wajah, logo seragam, atau papan nama sekolah. Foto hanya diolah di perangkat Anda.</p>
+    </div>
+    <div class="photo">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="drop" id="drop">
+          <label for="foto" style="font-weight:800">Pilih foto dari perangkat</label>
+          <input type="file" id="foto" accept="image/*">
+          <span class="hint">Format JPG atau PNG</span>
+        </div>
+        <div class="canvas-wrap" id="cwrap" hidden><canvas id="cv"></canvas></div>
+        <div class="row" id="ctools" hidden>
+          <button type="button" class="btn btn-ghost" id="undo">Batalkan kotak terakhir</button>
+          <button type="button" class="btn btn-pri" id="done">Tampilkan hasil</button>
+        </div>
+      </div>
+      <div class="out" id="out">
+        <p class="hint"><b>Tips:</b> samarkan wajah anak lain yang orang tuanya belum memberi izin, logo dan nama sekolah, nomor rumah, serta pelat nomor kendaraan.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ KUIS ============ -->
+<section class="view" id="v-kuis" hidden>
+  <div class="head">
+    <span class="eyebrow">Modul 2</span>
+    <h1>Kuis Bijak Berbagi</h1>
+    <p class="muted">Sepuluh situasi tentang jejak digital anak. Setiap jawaban langsung diberi penjelasan.</p>
+  </div>
+  <div class="card"><div class="quiz" id="quiz"></div></div>
+</section>
+
+<!-- ============ MAIN ============ -->
+<section class="view" id="v-main" hidden>
+  <div class="head">
+    <span class="eyebrow">Modul 3 · Didampingi orang tua atau guru</span>
+    <h1>Boleh atau Tanya Dulu?</h1>
+    <p class="muted">Guru atau orang tua membacakan setiap situasi dengan suara sendiri, lalu anak menekan tombol pilihannya. Efek bunyi dan musik tetap menemani permainan.</p>
+  </div>
+  <div class="game" id="game"></div>
+</section>
+
+<!-- ============ TENTANG ============ -->
+<section class="view about" id="v-tentang" hidden>
+  <div class="head">
+    <span class="eyebrow">Tentang produk</span>
+    <h1>Sebelum Unggah, Tanya Dulu</h1>
+    <p class="muted">Platform edukasi literasi digital tentang perlindungan jejak digital anak usia dini (sharenting) untuk orang tua, lembaga PAUD, dan anak.</p>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <h3>Latar belakang</h3>
+      <p>Orang tua dan lembaga PAUD sering membagikan foto serta video anak di media sosial. Unggahan tersebut membentuk jejak digital anak sejak dini, padahal anak belum dapat memberikan persetujuan. Dari sudut pandang kearsipan, setiap unggahan merupakan arsip pribadi anak yang diciptakan dan dikuasai orang dewasa, sehingga perlu dikelola secara bertanggung jawab.</p>
+    </div>
+    <div class="card">
+      <h3>Tujuan</h3>
+      <ul>
+        <li>Membantu orang tua dan lembaga PAUD menilai risiko sebelum mengunggah konten anak.</li>
+        <li>Meningkatkan pemahaman orang dewasa tentang jejak digital anak.</li>
+        <li>Mengenalkan konsep persetujuan dan keamanan digital kepada anak usia 4–6 tahun melalui permainan.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Komponen produk</h3>
+      <ul>
+        <li><b>Cek Sebelum Unggah:</b> 11 pernyataan untuk orang tua dan 15 untuk lembaga, skor risiko, saran perbaikan, serta alat penyamar foto.</li>
+        <li><b>Kuis Bijak Berbagi:</b> 10 soal situasi dengan umpan balik dan profil hasil.</li>
+        <li><b>Boleh atau Tanya Dulu?:</b> 8 situasi bergambar dengan narasi suara, bintang, dan lencana.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Privasi</h3>
+      <p>Semua jawaban dan foto diproses di perangkat pengguna. Platform tidak menyimpan, tidak mengirim, dan tidak mengumpulkan data apa pun.</p>
+    </div>
+    <div class="card">
+      <h3>Pengembang</h3>
+      <p><b>Naily Saniyah</b><br>Program Magister Pendidikan Guru PAUD, Universitas Negeri Surabaya<br>Mata kuliah Literasi Digital Anak Usia Dini</p>
+    </div>
+    <div class="card">
+      <h3>Pernyataan penggunaan AI</h3>
+      <p>Konsep, kerangka TANYA, butir pernyataan, soal kuis, dan skenario permainan dirancang oleh pengembang. Penulisan kode dan tata letak dikembangkan dengan bantuan kecerdasan buatan (Claude, Anthropic), lalu ditinjau dan disunting oleh pengembang.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer>© 2026 Naily Saniyah · Sebelum Unggah, Tanya Dulu · Versi 1.0. Alat ini bersifat edukatif dan tidak menggantikan nasihat hukum.</footer>
+
+<canvas id="fx" aria-hidden="true"></canvas>
+<div class="fab-tip" id="fab-tip">Ketuk di sini untuk menyalakan musik 🎶</div>
+<button type="button" class="fab" id="fab-music" aria-pressed="true" aria-label="Musik latar"><span>🎵</span><b>Musik</b></button>
+<script>
+(function(){
+"use strict";
+var $=function(id){return document.getElementById(id);};
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+
+/* ================= ROUTER ================= */
+var ROUTES=["beranda","cek","kuis","main","tentang"];
+function route(){
+  var h=(location.hash||"").replace("#","");
+  if(ROUTES.indexOf(h)<0) h="beranda";
+  ROUTES.forEach(function(r){$("v-"+r).hidden=(r!==h);});
+  document.querySelectorAll("#menu a").forEach(function(a){a.classList.toggle("on",a.dataset.r===h);});
+  window.scrollTo(0,0);
+  stopSpeak();
+  try{playPage();}catch(e){}
+}
+window.addEventListener("hashchange",route);
+
+/* ================= SUARA ================= */
+var soundOn=true, musicOn=true, kidVoice=false, narrOn=false;
+function pickVoice(){
+  try{
+    var vs=speechSynthesis.getVoices().filter(function(x){return /^id/i.test(x.lang);});
+    var pref=vs.filter(function(x){return /female|wanita|damayanti|gadis|google/i.test(x.name);})[0];
+    return pref||vs[0]||null;
+  }catch(e){return null;}
+}
+function talking(on){var g=document.getElementById("game");if(g)g.classList.toggle("talking",on);}
+function speak(t,opt){
+  if(!soundOn||!narrOn) return;
+  try{
+    if(!("speechSynthesis" in window)) return;
+    speechSynthesis.cancel();
+    var v=pickVoice();
+    /* pecah per kalimat/jeda agar intonasi naik-turun seperti bercerita */
+    var bits=String(t).replace(/\s*—\s*/g,", ").match(/[^.!?,]+[.!?,]*/g)||[t];
+    bits=bits.map(function(x){return x.trim();}).filter(function(x){return /[\p{L}\p{N}]/u.test(x);});
+    bits.forEach(function(x,i){
+      var spoken=x.replace(/[^\p{L}\p{N}\s-]/gu," ").replace(/(^|\s)-+|-+(\s|$)/g," ").replace(/\s+/g," ").trim();
+      if(!spoken) return;
+      var u=new SpeechSynthesisUtterance(spoken); u.lang="id-ID"; if(v) u.voice=v;
+      var end=x.slice(-1), base=(opt&&opt.pitch)||(kidVoice?1.6:1.22);
+      u.pitch = end==="!" ? base+.18 : end==="?" ? base+.14 : end==="," ? base+.06 : base-.02;
+      u.pitch += (Math.random()-.5)*.08;
+      u.rate = ((opt&&opt.rate)||(kidVoice?1.16:1.12)) + (end==="!"?.05:0) + (x.length<14?.04:0);
+      u.volume=1;
+      if(i===0) u.onstart=function(){talking(true);};
+      if(i===bits.length-1){u.onend=function(){talking(false);};}
+      u.onerror=function(){talking(false);};
+      setTimeout(function(){speechSynthesis.speak(u);}, (opt&&opt.delay)||0);
+    });
+  }catch(e){}
+}
+function stopSpeak(){try{speechSynthesis.cancel();}catch(e){}talking(false);}
+
+
+/* ================= MASKOT & EFEK ================= */
+function owl(mood,cls){
+  var eyes, brows="", dx=0, dy=0;
+  if(mood==="happy"){
+    eyes='<path d="M36 57q9-11 18 0M66 57q9-11 18 0" stroke="#22264B" stroke-width="5" fill="none" stroke-linecap="round"/>';
+  } else {
+    if(mood==="think"){dx=4;dy=-4;brows='<path d="M64 36q11-7 22 0" stroke="#0A5E55" stroke-width="4" fill="none" stroke-linecap="round"/>';}
+    if(mood==="oops"){dy=2;brows='<path d="M32 40l18-5M88 40l-18-5" stroke="#0A5E55" stroke-width="4" stroke-linecap="round"/>';}
+    eyes='<g class="blink"><circle cx="45" cy="55" r="15" fill="#fff"/><circle cx="75" cy="55" r="15" fill="#fff"/>'+
+      '<circle cx="'+(46+dx)+'" cy="'+(57+dy)+'" r="7" fill="#22264B"/><circle cx="'+(74+dx)+'" cy="'+(57+dy)+'" r="7" fill="#22264B"/>'+
+      '<circle cx="'+(48+dx)+'" cy="'+(54+dy)+'" r="2.4" fill="#fff"/><circle cx="'+(76+dx)+'" cy="'+(54+dy)+'" r="2.4" fill="#fff"/></g>';
+  }
+  var right = mood==="wave"
+    ? '<g class="wave" style="transform-origin:92px 72px"><ellipse cx="104" cy="56" rx="10" ry="21" transform="rotate(35 104 56)" fill="#0A7468"/></g>'
+    : '<ellipse cx="98" cy="80" rx="10" ry="21" transform="rotate(-12 98 80)" fill="#0A7468"/>';
+  var beak = mood==="happy"||mood==="wave"
+    ? '<path d="M52 69q8 12 16 0z" fill="#FFB627"/><path d="M55 71q5 5 10 0" fill="#F25F5C"/>'
+    : mood==="oops" ? '<ellipse cx="60" cy="73" rx="6" ry="5" fill="#FFB627"/>' : '<path d="M53 68l7 9 7-9z" fill="#FFB627"/>';
+  return '<svg class="mascot '+(cls||"")+'" viewBox="0 0 120 125" aria-hidden="true"><g class="float">'+
+    '<path d="M26 30l6-20 16 14zM94 30l-6-20-16 14z" fill="#0A7468"/>'+
+    '<ellipse cx="22" cy="80" rx="10" ry="21" transform="rotate(12 22 80)" fill="#0A7468"/>'+right+
+    '<ellipse cx="60" cy="66" rx="40" ry="44" fill="#0E9384"/>'+
+    '<ellipse cx="60" cy="86" rx="24" ry="20" fill="#9FE0D5"/>'+
+    '<path d="M50 84q4 4 8 0M62 84q4 4 8 0M56 93q4 4 8 0" stroke="#0E9384" stroke-width="2.5" fill="none" stroke-linecap="round"/>'+
+    eyes+brows+
+    '<ellipse cx="32" cy="70" rx="6" ry="4" fill="#FF9AA2" opacity=".75"/><ellipse cx="88" cy="70" rx="6" ry="4" fill="#FF9AA2" opacity=".75"/>'+
+    '<g class="beak">'+beak+'</g>'+
+    '<ellipse cx="48" cy="111" rx="8" ry="4" fill="#FFB627"/><ellipse cx="72" cy="111" rx="8" ry="4" fill="#FFB627"/>'+
+    '</g></svg>';
+}
+var reduce=false; try{reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;}catch(e){}
+var fx=$("fx"), fctx=fx.getContext("2d"), parts=[], running=false;
+function confetti(n){
+  if(reduce) return;
+  fx.width=innerWidth; fx.height=innerHeight;
+  var cols=["#0E9384","#FFB627","#F25F5C","#6B4BC2","#2F6FED","#2FA872","#FF9AA2"];
+  for(var i=0;i<n;i++){
+    parts.push({x:innerWidth/2+(Math.random()-.5)*240,y:innerHeight*.42,vx:(Math.random()-.5)*16,vy:-Math.random()*15-5,
+      r:Math.random()*7+5,c:cols[i%cols.length],a:Math.random()*6,va:(Math.random()-.5)*.35,life:0,circle:Math.random()<.3});
+  }
+  if(!running){running=true;requestAnimationFrame(tick);}
+}
+function tick(){
+  fctx.clearRect(0,0,fx.width,fx.height);
+  parts.forEach(function(p){
+    p.vy+=.38;p.vx*=.99;p.x+=p.vx;p.y+=p.vy;p.a+=p.va;p.life++;
+    fctx.save();fctx.translate(p.x,p.y);fctx.rotate(p.a);fctx.fillStyle=p.c;
+    if(p.circle){fctx.beginPath();fctx.arc(0,0,p.r/2.4,0,6.3);fctx.fill();} else fctx.fillRect(-p.r/2,-p.r/4,p.r,p.r/2);
+    fctx.restore();
+  });
+  parts=parts.filter(function(p){return p.y<fx.height+30&&p.life<260;});
+  if(parts.length) requestAnimationFrame(tick); else {running=false;fctx.clearRect(0,0,fx.width,fx.height);}
+}
+var ac=null;
+var bus=null;
+function audio(){ac=ac||new (window.AudioContext||window.webkitAudioContext)();if(ac.state==="suspended")ac.resume();
+  if(!bus){var comp=ac.createDynamicsCompressor();comp.threshold.value=-18;comp.knee.value=12;comp.ratio.value=4;comp.attack.value=.003;comp.release.value=.2;
+    bus=ac.createGain();bus.gain.value=1.6;bus.connect(comp);comp.connect(ac.destination);}
+  return ac;}
+function tone(f,t,d,type,vol,f2){
+  var c=audio(),o=c.createOscillator(),g=c.createGain();
+  o.type=type||"sine";o.frequency.setValueAtTime(f,t);if(f2)o.frequency.exponentialRampToValueAtTime(f2,t+d);
+  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol||.18,t+.015);g.gain.exponentialRampToValueAtTime(.001,t+d);
+  o.connect(g);g.connect(bus);o.start(t);o.stop(t+d+.02);
+  return o;
+}
+function sfx(kind){
+  if(!soundOn) return;
+  try{
+    var c=audio(),t=c.currentTime;
+    if(kind==="pop"){tone(380,t,.09,"sine",.2,980);}
+    else if(kind==="hoot"){
+      tone(494,t,.28,"sine",.2,440);tone(440,t+.34,.36,"sine",.2,392);
+    }
+    else if(kind==="win"){[523.25,659.25,783.99,1046.5].forEach(function(f,i){tone(f,t+i*.09,.28,"triangle",.17);});tone(1568,t+.38,.35,"sine",.08);}
+    else if(kind==="boing"){
+      tone(523.25,t,.16,"triangle",.16);tone(392,t+.16,.28,"triangle",.16);
+    }
+    else if(kind==="star"){tone(1318.5,t,.12,"square",.05);tone(1760,t+.08,.2,"square",.05);}
+    else if(kind==="fanfare"){[[523.25,0],[523.25,.14],[523.25,.28],[659.25,.42],[783.99,.62],[659.25,.78],[783.99,.9],[1046.5,1.05]].forEach(function(n){tone(n[0],t+n[1],.22,"triangle",.16);});}
+  }catch(e){}
+}
+function chime(ok){sfx(ok?"win":"boing");}
+/* musik latar: melodi pentatonik riang, volume kecil */
+var music={timer:null,step:0,track:null}, audioUnlocked=false;
+var PAGE_TRACK={beranda:"beranda",cek:"cek",kuis:"kuis",main:"game",tentang:"beranda"};
+function curPage(){var h=(location.hash||"").replace("#","");return PAGE_TRACK[h]?h:"beranda";}
+function playPage(){musicStart(PAGE_TRACK[curPage()]);}
+function setMusic(on){
+  musicOn=on;
+  document.querySelectorAll("#a-music,#fab-music").forEach(function(b){b.setAttribute("aria-pressed",on);});
+  var f=$("fab-music"); if(f) f.querySelector("span").textContent=on?"🎵":"🔇";
+  hideTip();if(on){audioUnlocked=true;playPage();} else musicStop();
+}
+function hideTip(){var t=document.getElementById("fab-tip");if(t)t.hidden=true;}
+function unlock(e){if(audioUnlocked)return;if(e&&e.target&&e.target.closest&&e.target.closest("#fab-music"))return;audioUnlocked=true;hideTip();try{audio();}catch(e){}playPage();}
+document.addEventListener("pointerdown",unlock,{once:false});
+document.addEventListener("keydown",unlock);
+var TRACKS={
+  game:{ms:260,vol:.14,mel:[523.25,659.25,783.99,659.25,587.33,659.25,523.25,0,587.33,659.25,783.99,880,783.99,659.25,587.33,0],bass:[261.63,0,196,0,220,0,196,0]},
+  beranda:{ms:300,vol:.13,mel:[523.25,0,659.25,783.99,880,0,783.99,659.25,698.46,0,659.25,587.33,523.25,0,0,0,587.33,0,659.25,698.46,783.99,0,880,783.99,659.25,0,587.33,0,523.25,0,0,0],bass:[261.63,0,0,0,349.23,0,0,0,392,0,0,0,261.63,0,0,0]},
+  cek:{ms:460,vol:.11,mel:[659.25,0,0,587.33,523.25,0,0,0,587.33,0,659.25,0,783.99,0,0,0,659.25,0,0,587.33,523.25,0,440,0,523.25,0,0,0,0,0,0,0],bass:[220,0,0,0,174.61,0,0,0,261.63,0,0,0,196,0,0,0]},
+  kuis:{ms:400,vol:.12,mel:[659.25,0,783.99,659.25,587.33,0,523.25,0,587.33,0,659.25,587.33,523.25,0,440,0,523.25,0,587.33,659.25,783.99,0,659.25,0,587.33,0,523.25,587.33,523.25,0,0,0],bass:[130.81,0,0,0,174.61,0,0,0,196,0,0,0,130.81,0,0,0]}
+};
+function musicStart(track){
+  track=track||music.track||"beranda";
+  if(music.timer&&music.track===track) return;
+  musicStop(); music.track=track;
+  if(!soundOn||!musicOn||!audioUnlocked) return;
+  try{audio();}catch(e){return;}
+  var T=TRACKS[track];
+  music.timer=setInterval(function(){
+    try{
+      var t=ac.currentTime+.02,i=music.step%T.mel.length;
+      if(T.mel[i]){tone(T.mel[i],t,T.ms/1000*.9,"triangle",T.vol);tone(T.mel[i]*2,t,T.ms/1000*.5,"sine",T.vol*.25);}
+      var bi=music.step%T.bass.length; if(T.bass[bi]){tone(T.bass[bi]*2,t,T.ms/1000*1.6,"triangle",T.vol*.8);tone(T.bass[bi],t,T.ms/1000*1.6,"sine",T.vol*.6);}
+      music.step++;
+    }catch(e){}
+  },T.ms);
+}
+function musicStop(){if(music.timer){clearInterval(music.timer);music.timer=null;}}
+/* ================= MODUL 1: CEK ================= */
+var LET={T:{n:"Tujuan",c:"#0E9384"},A1:{n:"Anak setuju",c:"#6B4BC2"},N:{n:"Nampak identitas",c:"#E39A00"},Y:{n:"Yang melihat",c:"#2F6FED"},A2:{n:"Akan berdampak",c:"#F25F5C"}};
+var ORDER=["T","A1","N","Y","A2"];
+var QS=[
+ {g:"T",w:1,t:"Saya tahu jelas tujuan unggahan ini, misalnya berbagi kabar dengan keluarga, bukan sekadar mengikuti tren atau mencari tanda suka.",
+  fix:"Tetapkan tujuan unggahan. Bila tujuannya hanya berbagi kabar dengan keluarga, kirimkan lewat pesan pribadi atau grup keluarga."},
+ {g:"A1",w:2,t:"Anak sudah saya tanya dan ia setuju fotonya dibagikan.",s:"Untuk bayi atau balita yang belum bisa ditanya: saya yakin ia tidak akan keberatan saat dewasa.",
+  fix:"Tanyakan kepada anak, misalnya \"Boleh Ibu kirim foto ini ke Nenek?\". Hormati jawabannya bila ia menolak."},
+ {g:"A1",w:3,crit:true,t:"Foto ini tidak menampilkan anak dalam keadaan memalukan atau rentan.",s:"Contoh: sedang mandi, tanpa busana, menangis, sakit, atau sedang dimarahi.",
+  fix:"Jangan unggah. Momen rentan adalah privasi anak dan berisiko disalahgunakan. Simpan saja sebagai kenangan pribadi."},
+ {g:"N",w:2,t:"Tidak tampak nama lengkap, nama sekolah, logo seragam, atau papan nama.",
+  fix:"Samarkan logo seragam, papan nama, dan nama sekolah dengan alat penyamar di bawah. Tulis nama panggilan saja."},
+ {g:"N",w:2,t:"Tidak tampak alamat rumah, pelat nomor kendaraan, atau penanda lokasi yang mudah dikenali.",
+  fix:"Potong atau samarkan nomor rumah, pelat nomor, dan penanda lokasi agar keberadaan anak tidak mudah dilacak."},
+ {g:"N",w:1,t:"Fitur lokasi (geotag) di kamera dan penanda lokasi pada unggahan sudah saya matikan.",
+  fix:"Matikan izin lokasi kamera di pengaturan ponsel dan jangan menambahkan penanda lokasi. Unggah setelah anak meninggalkan tempat itu."},
+ {g:"N",w:1,t:"Keterangan foto tidak mencantumkan tanggal lahir lengkap, jadwal rutin, atau rute harian anak.",
+  fix:"Hapus tanggal lahir lengkap dan jadwal rutin dari keterangan. Cukup tulis ucapan atau doa."},
+ {g:"Y",w:2,t:"Akun saya privat, atau unggahan ini hanya dibagikan kepada orang terdekat.",s:"Contoh: fitur teman dekat atau grup keluarga.",
+  fix:"Ubah akun menjadi privat atau gunakan fitur teman dekat. Hindari tagar populer yang membuat foto mudah ditemukan orang asing."},
+ {g:"Y",w:1,t:"Saya tahu siapa saja yang dapat melihat, menyimpan, atau meneruskan unggahan ini.",
+  fix:"Periksa daftar pengikut atau anggota grup. Ingat bahwa siapa pun dapat merekam layar, termasuk pada status yang hilang dalam 24 jam."},
+ {g:"A2",w:2,t:"Saya tidak keberatan bila foto ini masih dapat ditemukan 10–15 tahun lagi, saat anak sudah remaja.",
+  fix:"Ingat bahwa arsip digital sulit dimusnahkan. Bila ragu, simpan foto di album pribadi saja."},
+ {g:"A2",w:2,t:"Foto ini tidak akan membuat anak malu atau menjadi bahan ejekan teman-temannya kelak.",
+  fix:"Bayangkan anak melihat foto ini bersama teman sekolahnya. Bila mungkin membuatnya malu, jangan unggah."},
+ {g:"A1",w:3,lem:true,crit:true,t:"Lembaga memiliki persetujuan tertulis dari orang tua untuk memublikasikan foto anak.",
+  fix:"Siapkan formulir persetujuan publikasi pada awal tahun ajaran dan perbarui setiap tahun. Tanpa persetujuan, jangan unggah foto anak tersebut."},
+ {g:"N",w:2,lem:true,t:"Wajah anak yang orang tuanya tidak memberi izin sudah disamarkan atau tidak masuk bingkai.",
+  fix:"Samarkan wajah anak yang belum diizinkan, atau ambil foto dari belakang dan fokus pada karya atau kegiatan."},
+ {g:"Y",w:1,lem:true,t:"Unggahan dikelola melalui akun resmi lembaga, bukan akun pribadi guru.",
+  fix:"Pusatkan publikasi di akun resmi lembaga dengan pengelola yang ditunjuk, dan minta guru tidak mengunggah foto anak di akun pribadinya."},
+ {g:"A2",w:2,lem:true,t:"Lembaga memiliki aturan berapa lama unggahan disimpan dan kapan unggahan lama diarsipkan atau dihapus.",s:"Jadwal retensi unggahan media sosial.",
+  fix:"Susun jadwal retensi, misalnya unggahan yang menampilkan wajah anak diarsipkan secara internal lalu dihapus dari media sosial setelah anak lulus."}
+];
+var cek={mode:"ortu",ans:{}};
+function activeQs(){return QS.map(function(q,i){q.i=i;return q;}).filter(function(q){return cek.mode==="lembaga"||!q.lem;});}
+function buildCek(){
+  var box=$("cek-qs"), html="", qs=activeQs();
+  ORDER.forEach(function(g){
+    var list=qs.filter(function(q){return q.g===g;}); if(!list.length) return;
+    html+='<div class="qgroup"><div class="qgroup-h"><span class="t-letter" style="color:'+LET[g].c+'">'+g.charAt(0)+'</span><h3>'+LET[g].n+'</h3></div>';
+    list.forEach(function(q){
+      var a=cek.ans[q.i];
+      html+='<div class="q'+(q.lem?' lembaga':'')+'" id="cq'+q.i+'"><div><p>'+q.t+(q.lem?'<span class="tag-l">Lembaga</span>':'')+'</p>'+(q.s?'<small>'+q.s+'</small>':'')+'</div>'+
+        '<div class="ans" role="radiogroup" aria-label="Jawaban">'+
+        opt(q.i,"y","Ya",a)+opt(q.i,"r","Ragu",a)+opt(q.i,"n","Tidak",a)+'</div></div>';
+    });
+    html+='</div>';
+  });
+  box.innerHTML=html;
+  box.querySelectorAll("input").forEach(function(inp){
+    inp.addEventListener("change",function(){cek.ans[+inp.dataset.i]=inp.value;$("cq"+inp.dataset.i).style.borderColor="";cekProg();});
+  });
+  cekProg();
+}
+function opt(i,v,l,a){return '<label><input type="radio" name="c'+i+'" id="c'+i+v+'" data-i="'+i+'" value="'+v+'"'+(a===v?' checked':'')+'><span class="'+v+'">'+l+'</span></label>';}
+function cekProg(){
+  var qs=activeQs(), n=qs.filter(function(q){return cek.ans[q.i];}).length;
+  $("cek-prog-t").textContent=n+" dari "+qs.length+" dijawab";
+  $("cek-prog").style.width=(n/qs.length*100)+"%";
+}
+function setMode(m){
+  cek.mode=m;
+  $("mode-ortu").setAttribute("aria-pressed",m==="ortu");
+  $("mode-lembaga").setAttribute("aria-pressed",m==="lembaga");
+  buildCek(); $("cek-result").hidden=true;
+}
+$("mode-ortu").addEventListener("click",function(){setMode("ortu");});
+$("mode-lembaga").addEventListener("click",function(){setMode("lembaga");});
+$("cek-reset").addEventListener("click",function(){cek.ans={};buildCek();$("cek-result").hidden=true;$("cek-err").hidden=true;});
+$("cek-go").addEventListener("click",function(){
+  var qs=activeQs(), miss=qs.filter(function(q){return !cek.ans[q.i];});
+  if(miss.length){
+    $("cek-err").textContent=miss.length+" pernyataan belum dijawab. Bagian yang belum dijawab diberi garis merah.";$("cek-err").hidden=false;
+    miss.forEach(function(q){$("cq"+q.i).style.borderColor="#F25F5C";});
+    $("cq"+miss[0].i).scrollIntoView({behavior:"smooth",block:"center"});return;
+  }
+  $("cek-err").hidden=true; renderCek();
+});
+function renderCek(){
+  var qs=activeQs(), sum=0, max=0, crit=false, risky=[];
+  qs.forEach(function(q){
+    var a=cek.ans[q.i], p=a==="n"?2:a==="r"?1:0;
+    sum+=p*q.w; max+=2*q.w;
+    if(q.crit&&a==="n") crit=true;
+    if(p>0) risky.push({q:q,p:p});
+  });
+  var pct=Math.round(sum/max*100), lvl;
+  if(crit||pct>50) lvl={k:"hi",t:"Tunda unggahan",d:"Unggahan ini berisiko tinggi bagi privasi dan keamanan anak. Perbaiki hal-hal di bawah atau simpan foto sebagai kenangan pribadi.",c:"#F25F5C"};
+  else if(pct>20) lvl={k:"mid",t:"Pertimbangkan dulu",d:"Masih ada beberapa hal yang perlu diperbaiki sebelum unggahan ini aman dibagikan.",c:"#E39A00"};
+  else lvl={k:"ok",t:"Relatif aman",d:"Unggahan ini sudah mempertimbangkan sebagian besar aspek perlindungan anak. Tetap bijak dan tinjau ulang sesekali.",c:"#2FA872"};
+  risky.sort(function(a,b){return (b.p*b.q.w)-(a.p*a.q.w);});
+  var C=2*Math.PI*58;
+  var html='<div class="verdict v-'+lvl.k+'"><svg class="meter" viewBox="0 0 150 150" role="img" aria-label="Skor risiko '+pct+' persen">'+
+    '<circle cx="75" cy="75" r="58" fill="none" stroke="#fff" stroke-width="16"/>'+
+    '<circle cx="75" cy="75" r="58" fill="none" stroke="'+lvl.c+'" stroke-width="16" stroke-linecap="round" transform="rotate(-90 75 75)" stroke-dasharray="'+(C*pct/100).toFixed(1)+' '+C.toFixed(1)+'"/>'+
+    '<text x="75" y="80" text-anchor="middle" font-size="34" font-weight="700" fill="#22264B">'+pct+'</text><text x="75" y="102" text-anchor="middle" font-size="12" fill="#5C6385">skor risiko</text></svg>'+
+    '<div style="display:flex;flex-direction:column;gap:8px"><span class="eyebrow" style="color:'+lvl.c+'">Hasil cek · '+(cek.mode==="lembaga"?"Lembaga PAUD":"Orang tua")+'</span><h3>'+lvl.t+'</h3><p>'+lvl.d+'</p>'+
+    (crit?'<p style="font-weight:800;color:#B3261E">Ada pernyataan penting yang dijawab "Tidak", sehingga hasil otomatis menjadi "Tunda unggahan".</p>':'')+'</div>'+owl(lvl.k==="ok"?"happy":lvl.k==="mid"?"think":"oops")+'</div>';
+  if(risky.length){
+    html+='<div class="card" style="display:flex;flex-direction:column;gap:12px"><h2 style="font-size:1.35rem">Yang perlu diperbaiki ('+risky.length+')</h2><ul class="fixes">';
+    risky.forEach(function(r){
+      html+='<li><span class="lt" style="background:'+LET[r.q.g].c+'">'+r.q.g.charAt(0)+'</span><div><b>'+LET[r.q.g].n+(r.p===1?' · dijawab ragu':' · dijawab tidak')+'</b><span>'+r.q.fix+'</span></div></li>';
+    });
+    html+='</ul></div>';
+  } else {
+    html+='<div class="card"><p><b>Semua pernyataan dijawab "Ya".</b> Pertahankan kebiasaan baik ini dan ajak orang tua atau guru lain melakukan cek yang sama.</p></div>';
+  }
+  html+='<div class="row between"><span class="toast" id="cek-toast" aria-live="polite"></span><div class="row"><button class="btn btn-ghost" type="button" id="cek-copy">Salin ringkasan</button><a class="btn btn-sun" href="#kuis">Lanjut ke kuis →</a></div></div>'+
+    '<div id="cek-copybox" hidden><label for="cek-ta" style="font-weight:800">Salin teks berikut:</label><textarea class="copybox" id="cek-ta" readonly></textarea></div>';
+  var res=$("cek-result"); res.innerHTML=html; if(lvl.k==="ok") confetti(70); res.hidden=false; res.scrollIntoView({behavior:"smooth",block:"start"});
+  $("cek-copy").addEventListener("click",function(){
+    var txt="HASIL CEK SEBELUM UNGGAH ("+(cek.mode==="lembaga"?"Lembaga PAUD":"Orang tua")+")\nSkor risiko: "+pct+" dari 100 — "+lvl.t+"\n";
+    if(risky.length){txt+="\nPerlu diperbaiki:\n"+risky.map(function(r){return "- ["+LET[r.q.g].n+"] "+r.q.fix;}).join("\n");}
+    txt+="\n\nSebelum Unggah, Tanya Dulu — kerangka TANYA: Tujuan, Anak setuju, Nampak identitas, Yang melihat, Akan berdampak.";
+    copyText(txt,$("cek-toast"),$("cek-copybox"),$("cek-ta"));
+  });
+}
+function copyText(txt,toast,box,ta){
+  function fb(){ta.value=txt;box.hidden=false;ta.select();}
+  try{navigator.clipboard.writeText(txt).then(function(){toast.textContent="Ringkasan tersalin ✓";},fb);}catch(e){fb();}
+}
+
+/* ---- penyamar foto ---- */
+var cv=$("cv"), ctx=cv.getContext("2d"), img=null, rects=[], drag=null;
+$("foto").addEventListener("change",function(e){
+  var f=e.target.files&&e.target.files[0]; if(!f) return;
+  var url=URL.createObjectURL(f), im=new Image();
+  im.onload=function(){
+    img=im; rects=[];
+    var maxW=1200, sc=Math.min(1,maxW/im.width);
+    cv.width=Math.round(im.width*sc); cv.height=Math.round(im.height*sc);
+    redraw(); $("cwrap").hidden=false; $("ctools").hidden=false;
+    $("out").innerHTML='<p class="hint">Tarik kotak di atas foto untuk menyamarkan. Setelah selesai, tekan <b>Tampilkan hasil</b>.</p>';
+  };
+  im.onerror=function(){$("out").innerHTML='<p style="color:#B3261E;font-weight:800">Foto tidak dapat dibuka. Coba pilih file JPG atau PNG lain.</p>';};
+  im.src=url;
+});
+function pixelate(r){
+  var x=Math.max(0,Math.min(r.x,r.x+r.w)), y=Math.max(0,Math.min(r.y,r.y+r.h)), w=Math.abs(r.w), h=Math.abs(r.h);
+  if(w<4||h<4) return;
+  var bs=Math.max(8,Math.round(Math.min(cv.width,cv.height)/40));
+  var sw=Math.max(1,Math.round(w/bs)), sh=Math.max(1,Math.round(h/bs));
+  var tmp=document.createElement("canvas"); tmp.width=sw; tmp.height=sh;
+  tmp.getContext("2d").drawImage(cv,x,y,w,h,0,0,sw,sh);
+  ctx.imageSmoothingEnabled=false; ctx.drawImage(tmp,0,0,sw,sh,x,y,w,h); ctx.imageSmoothingEnabled=true;
+}
+function redraw(){
+  if(!img) return;
+  ctx.drawImage(img,0,0,cv.width,cv.height);
+  rects.forEach(pixelate);
+  if(drag){ctx.save();ctx.strokeStyle="#FFB627";ctx.lineWidth=Math.max(3,cv.width/250);ctx.setLineDash([10,6]);ctx.strokeRect(drag.x,drag.y,drag.w,drag.h);ctx.restore();}
+}
+function pt(e){var b=cv.getBoundingClientRect();return {x:(e.clientX-b.left)*cv.width/b.width,y:(e.clientY-b.top)*cv.height/b.height};}
+cv.addEventListener("pointerdown",function(e){if(!img)return;cv.setPointerCapture(e.pointerId);var p=pt(e);drag={x:p.x,y:p.y,w:0,h:0};});
+cv.addEventListener("pointermove",function(e){if(!drag)return;var p=pt(e);drag.w=p.x-drag.x;drag.h=p.y-drag.y;redraw();});
+cv.addEventListener("pointerup",function(){if(!drag)return;rects.push(drag);drag=null;redraw();});
+$("undo").addEventListener("click",function(){rects.pop();redraw();});
+$("done").addEventListener("click",function(){
+  var data; try{data=cv.toDataURL("image/jpeg",.9);}catch(e){return;}
+  $("out").innerHTML='<p style="font-weight:800;margin-bottom:8px">Hasil foto ('+rects.length+' bagian disamarkan)</p><img src="'+data+'" alt="Foto yang sudah disamarkan"><p class="hint" style="margin-top:8px">Untuk menyimpan, tekan lama gambar (di ponsel) atau klik kanan lalu pilih "Simpan gambar" (di laptop).</p>';
+});
+
+/* ================= MODUL 2: KUIS ================= */
+var QUIZ=[
+ {q:"Anda ingin mengunggah foto hari pertama anak masuk TK. Anak memakai seragam lengkap dengan logo sekolah. Apa langkah paling bijak?",
+  o:["Mengunggahnya ke akun publik agar banyak yang memberi selamat.","Menyamarkan logo dan nama sekolah, lalu membagikannya ke akun privat atau grup keluarga.","Mengunggahnya dan menandai lokasi sekolah agar keluarga tahu."],a:1,
+  e:"Logo dan lokasi sekolah memberi tahu orang asing di mana anak berada setiap hari. Samarkan identitas dan batasi siapa yang dapat melihat."},
+ {q:"Apa yang dimaksud dengan jejak digital anak?",
+  o:["Riwayat gim yang dimainkan anak.","Semua data dan informasi tentang anak yang tersimpan di internet, termasuk yang diunggah orang lain.","Foto anak yang tersimpan di galeri ponsel."],a:1,
+  e:"Jejak digital mencakup unggahan orang tua, guru, dan kerabat. Anak sering kali sudah memiliki jejak digital jauh sebelum ia memiliki akun sendiri."},
+ {q:"Fitur apa yang sebaiknya dimatikan saat memotret anak untuk diunggah?",
+  o:["Lampu kilat.","Lokasi atau geotag.","Mode potret."],a:1,
+  e:"Geotag menyimpan koordinat tempat foto diambil. Data ini dapat mengungkap alamat rumah atau sekolah anak."},
+ {q:"Anak Anda menangis karena terjatuh dan ekspresinya terlihat lucu. Apa yang sebaiknya dilakukan?",
+  o:["Mengunggahnya karena lucu dan menghibur.","Tidak mengunggahnya karena momen sedih atau memalukan adalah privasi anak.","Mengunggahnya di status 24 jam saja karena akan hilang sendiri."],a:1,
+  e:"Momen rentan dapat membuat anak malu kelak. Status 24 jam pun dapat direkam layar dan disebarkan ulang."},
+ {q:"Mengapa meminta izin anak tetap penting walaupun anak masih kecil?",
+  o:["Agar anak mau berpose dengan baik.","Agar anak belajar bahwa tubuh dan gambarnya adalah miliknya, serta terbiasa dengan konsep persetujuan.","Tidak penting karena anak belum mengerti."],a:1,
+  e:"Kebiasaan meminta izin mengajarkan anak tentang batas diri. Kemampuan ini juga membantu anak melindungi dirinya dari orang lain."},
+ {q:"Foto anak yang sudah dihapus dari media sosial…",
+  o:["pasti hilang selamanya.","mungkin sudah disimpan, direkam layar, atau diteruskan oleh orang lain.","otomatis dilaporkan ke pihak berwenang."],a:1,
+  e:"Menghapus unggahan tidak menghapus salinannya. Karena itu, keputusan terpenting dibuat sebelum mengunggah."},
+ {q:"Cara paling aman membagikan foto anak kepada keluarga besar adalah…",
+  o:["akun publik dengan tagar populer.","grup keluarga tertutup atau fitur teman dekat.","grup komunitas umum yang anggotanya banyak."],a:1,
+  e:"Semakin sempit lingkaran penerima, semakin kecil kemungkinan foto jatuh ke tangan orang yang tidak dikenal."},
+ {q:"Lembaga PAUD ingin memublikasikan foto kegiatan kelas. Apa yang wajib dilakukan lebih dulu?",
+  o:["Memilih filter foto yang paling menarik.","Meminta persetujuan tertulis dari orang tua.","Menandai akun semua orang tua."],a:1,
+  e:"Persetujuan tertulis melindungi hak anak dan lembaga. Anak yang orang tuanya tidak setuju perlu disamarkan atau tidak dimasukkan ke bingkai."},
+ {q:"Informasi apa yang aman dicantumkan pada keterangan foto ulang tahun anak?",
+  o:["Nama lengkap, tanggal lahir, dan nama sekolah.","Ucapan dan doa tanpa nama lengkap serta tanggal lahir.","Alamat tempat pesta agar tamu mudah datang."],a:1,
+  e:"Nama lengkap dan tanggal lahir adalah data pribadi yang dapat disalahgunakan, misalnya untuk pemalsuan identitas."},
+ {q:"Dari sudut pandang kearsipan, foto anak di media sosial merupakan…",
+  o:["sekadar konten hiburan.","arsip digital pribadi anak yang diciptakan dan dikuasai orang dewasa, sehingga orang dewasa bertanggung jawab menjaganya.","milik perusahaan media sosial sepenuhnya."],a:1,
+  e:"Anak adalah subjek arsip, tetapi belum memiliki kendali atasnya. Orang tua dan lembaga memegang tanggung jawab sebagai pencipta dan pengelola arsip itu."}
+];
+var qz;
+function quizStart(){sfx("pop");musicStart("kuis");qz={i:0,score:0,log:[],order:QUIZ.map(function(q){var idx=q.o.map(function(_,k){return k;});for(var j=idx.length-1;j>0;j--){var r=Math.floor(Math.random()*(j+1));var t=idx[j];idx[j]=idx[r];idx[r]=t;}return idx;})};quizShow();}
+function quizAudio(){return '<div class="audio-ctl"><button type="button" id="a-sound" aria-pressed="'+soundOn+'">🔊 Efek bunyi</button><button type="button" id="a-music" aria-pressed="'+musicOn+'">🎵 Musik latar</button></div>';}
+function quizIntro(){
+  $("quiz").innerHTML='<div class="profile">'+badge("#6B4BC2","wave")+'<h3>Seberapa bijak Anda berbagi?</h3><p class="muted">10 soal · sekitar 5 menit · setiap jawaban dilengkapi penjelasan</p><button class="btn btn-pri" type="button" id="qz-start">Mulai kuis</button></div>';
+  $("qz-start").addEventListener("click",quizStart);
+}
+function quizShow(){
+  var Q=QUIZ[qz.i], ord=qz.order[qz.i], L="ABC";
+  var html='<div class="qnum"><span>Soal '+(qz.i+1)+' dari '+QUIZ.length+'</span><span>Skor: '+qz.score+'</span></div><div class="bar"><i style="width:'+(qz.i/QUIZ.length*100)+'%"></i></div>'+
+    '<p class="qtext">'+Q.q+'</p><div class="choices">';
+  ord.forEach(function(k,j){html+='<button type="button" class="choice" data-k="'+k+'"><span class="k">'+L[j]+'</span><span>'+Q.o[k]+'</span></button>';});
+  html+='</div><div id="qz-fb"></div>'+quizAudio();
+  $("quiz").innerHTML=html; bindAudio();
+  $("quiz").querySelectorAll(".choice").forEach(function(b){b.addEventListener("click",function(){quizAnswer(+b.dataset.k,b);});});
+}
+function quizAnswer(k,btn){
+  var Q=QUIZ[qz.i], ok=k===Q.a;
+  if(ok){qz.score++;confetti(28);sfx("win");}else{sfx("boing");}
+  qz.log.push({ok:ok});
+  $("quiz").querySelectorAll(".choice").forEach(function(b){b.disabled=true;if(+b.dataset.k===Q.a)b.classList.add("right");});
+  if(!ok) btn.classList.add("wrong");
+  var last=qz.i===QUIZ.length-1;
+  if(!ok){var qb=$("quiz");qb.classList.remove("shake");void qb.offsetWidth;qb.classList.add("shake");}
+  $("qz-fb").innerHTML='<div class="fb '+(ok?"good":"bad")+' pop"><b>'+(ok?"Tepat! 🎉":"Kurang tepat.")+'</b> '+Q.e+'</div><div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn btn-pri" type="button" id="qz-next">'+(last?"Lihat hasil →":"Soal berikutnya →")+'</button></div>';
+  $("qz-next").addEventListener("click",function(){sfx("pop");if(last)quizEnd();else{qz.i++;quizShow();}});
+  $("qz-next").focus();
+}
+function badge(c,m){return '<div class="badge-wrap" style="background:'+c+'22">'+owl(m||"normal")+'</div>';}
+function quizEnd(){
+  qz.done=true;
+  var s=qz.score, p;
+  if(s>=8) p={t:"Penjaga Jejak Digital",m:"happy",c:"#0E9384",d:"Anda sangat memahami cara melindungi jejak digital anak. Bagikan pengetahuan ini kepada orang tua dan guru lain."};
+  else if(s>=5) p={t:"Sedang Belajar Bijak",m:"think",c:"#E39A00",d:"Pemahaman Anda sudah baik, tetapi masih ada beberapa hal yang perlu diperhatikan. Pelajari penjelasan soal yang terlewat."};
+  else p={t:"Perlu Lebih Waspada",m:"oops",c:"#F25F5C",d:"Jejak digital anak memerlukan perhatian lebih. Gunakan modul Cek Sebelum Unggah setiap kali ingin membagikan foto anak."};
+  if(s>=8) confetti(160); else if(s>=5) confetti(60); sfx("fanfare");
+  var html='<div class="profile">'+badge(p.c,p.m)+'<span class="eyebrow" style="color:'+p.c+'">Skor '+s+' dari '+QUIZ.length+'</span><h3>'+p.t+'</h3><p class="muted" style="max-width:52ch">'+p.d+'</p><ul class="recap">';
+  QUIZ.forEach(function(q,i){var ok=qz.log[i].ok;html+='<li><span class="ic" style="background:'+(ok?"#2FA872":"#F25F5C")+'">'+(ok?"✓":"✕")+'</span><span>'+(i+1)+'. '+q.e+'</span></li>';});
+  html+='</ul><div class="row" style="justify-content:center"><button class="btn btn-ghost" type="button" id="qz-again">Ulangi kuis</button><a class="btn btn-pri" href="#cek">Coba Cek Sebelum Unggah</a></div>'+quizAudio()+'</div>';
+  $("quiz").innerHTML=html; $("quiz").scrollIntoView({block:"start"});
+  bindAudio(); $("qz-again").addEventListener("click",quizStart);
+}
+
+/* ================= MODUL 3: GAME ================= */
+var SC=[
+ {pic:"🎮❓",t:"Saat bermain gim, ada orang yang tidak kamu kenal bertanya, \"Rumahmu di mana?\"",a:"ask",
+  f:"Betul! Alamat rumah itu rahasia. Jangan dijawab, lalu tanya Ayah atau Ibu dulu, ya."},
+ {pic:"📸😊",t:"Kakak bertanya, \"Boleh Kakak foto kamu?\" Kamu senang dan mau difoto.",a:"yes",
+  f:"Hebat! Kakak bertanya dulu, dan kamu boleh menjawab mau atau tidak mau."},
+ {pic:"🎁⚠️",t:"Di layar muncul tulisan \"Klik di sini, dapat hadiah!\"",a:"ask",
+  f:"Pintar! Jangan langsung diklik. Tanya Ayah atau Ibu dulu, karena bisa saja itu jebakan."},
+ {pic:"📺🎵",t:"Bu Guru memutar video lagu anak-anak di kelas bersama teman-teman.",a:"yes",
+  f:"Benar! Menonton bersama Bu Guru itu boleh dan menyenangkan."},
+ {pic:"📞❓",t:"Ada panggilan video dari orang yang tidak kamu kenal.",a:"ask",
+  f:"Betul sekali! Jangan diangkat. Panggil Ayah atau Ibu dulu, ya."},
+ {pic:"🛁📷",t:"Ada orang yang mau memotretmu saat kamu sedang mandi.",a:"ask",
+  f:"Kamu boleh bilang, \"Tidak mau!\" Tubuhmu milikmu. Ceritakan kepada Ayah atau Ibu, ya."},
+ {pic:"👫📱",t:"Kamu ingin memotret temanmu, lalu mengirim fotonya ke orang lain.",a:"ask",
+  f:"Benar! Tanya temanmu dulu apakah ia mau, lalu tanya Ayah atau Ibu."},
+ {pic:"🧸📱",t:"Kamu menonton kartun bersama Ibu pada waktu bermain gawai.",a:"yes",
+  f:"Hore! Menonton bersama Ibu pada waktunya itu boleh."}
+];
+var gm, kidName="";
+var HINT={ask:"Ingat, ya: kalau ada orang yang tidak dikenal, atau kamu merasa ragu, sebaiknya tanya Ayah atau Ibu dulu.",
+          yes:"Ingat, ya: kalau sedang bersama Ayah, Ibu, atau Bu Guru, dan kamu sudah ditanya, itu boleh."};
+var CHEER=["Yeay, benar!","Wah, pintar sekali!","Mantap!","Keren banget!","Hore, kamu hebat!","Asyik, betul!"];
+function stars(n,tot,pop){var h='<div class="stars" aria-label="'+n+' bintang">';for(var i=0;i<tot;i++)h+='<span class="s'+(i<n?' on':'')+'"'+(i<n&&i!==pop?' style="animation:none"':'')+'>★</span>';return h+'</div>';}
+function dots(){var h='<div class="dots" aria-hidden="true">';for(var i=0;i<SC.length;i++){var c=gm.res[i]==="ok"?"ok":gm.res[i]==="help"?"help":i===gm.i?"cur":"";h+='<i class="'+c+'"></i>';}return h+'</div>';}
+function hi(){return kidName?kidName:"Teman";}
+function audioCtl(){return '<div class="audio-ctl"><button type="button" id="a-sound" aria-pressed="'+soundOn+'">🔊 Suara</button><button type="button" id="a-music" aria-pressed="'+musicOn+'">🎵 Musik</button><button type="button" id="a-narr" aria-pressed="'+narrOn+'">🗣️ Narasi otomatis</button></div>';}
+function bindAudio(){
+  var a=$("a-sound"),m=$("a-music"); if(!a) return;
+  a.addEventListener("click",function(){soundOn=!soundOn;a.setAttribute("aria-pressed",soundOn);if(!soundOn){stopSpeak();musicStop();}else{sfx("pop");if(musicOn)playPage();}});
+  var k=$("a-narr");
+  if(k) k.addEventListener("click",function(){narrOn=!narrOn;k.setAttribute("aria-pressed",narrOn);sfx("pop");if(narrOn)speak("Halo! Aku Si Tanya.");else stopSpeak();syncSay();});
+  m.addEventListener("click",function(){setMusic(!musicOn);});
+}
+function syncSay(){document.querySelectorAll("#g-say,#g-rep").forEach(function(b){b.hidden=!narrOn;});var t=$("g-tip");if(t)t.hidden=narrOn;}
+function gameIntro(){
+  $("game").innerHTML=owl("wave")+'<div class="speech">Halo! Aku <b>Si Tanya</b>, burung hantu penjaga dunia digital. Siapa namamu?</div>'+
+   '<div class="namebox"><label for="g-name" class="hint" style="width:100%;font-weight:800">Ketik nama anak (boleh dikosongkan)</label><input id="g-name" type="text" maxlength="20" autocomplete="off" placeholder="Nama panggilan"></div>'+
+   '<button class="btn btn-pri" type="button" id="g-start" style="font-size:1.25rem;padding:16px 30px">Ayo main! 🚀</button>'+
+   audioCtl();
+  bindAudio();
+  $("g-start").addEventListener("click",function(){
+    kidName=$("g-name").value.trim().replace(/[^A-Za-zÀ-ɏ' -]/g,"").slice(0,20);
+    gm={i:0,stars:0,res:[],tried:false};
+    sfx("hoot"); musicStart("game");
+    speak("Hu hu! Halo, "+hi()+"! Aku Si Tanya. Yuk, kita main! Dengarkan ceritanya, terus pilih jawabanmu, ya!",{delay:650});
+    gameShow();
+  });
+}
+function gameShow(){
+  var S=SC[gm.i];
+  $("game").innerHTML=stars(gm.stars,SC.length,-1)+dots()+
+   '<div class="scene bounce-in"><div class="pic" aria-hidden="true">'+S.pic+'</div><p>'+S.t+'</p><button class="sound" type="button" id="g-say">🔊 Dengarkan</button><p class="hint" id="g-tip" style="font-size:.85rem;font-family:var(--font-body)">Guru atau orang tua membacakan cerita ini dengan suara ceria, lalu anak memilih jawabannya.</p></div>'+
+   '<div class="row" style="justify-content:center;align-items:center;gap:6px">'+owl("think","sm")+'<div class="speech tail-none" style="font-size:.95rem">'+(gm.tried?"Ayo coba lagi, "+esc(hi())+"! Kamu pasti bisa.":"Menurutmu bagaimana, "+esc(hi())+"?")+'</div></div>'+
+   '<div class="big"><button type="button" class="b-yes" id="g-yes"><span>👍</span>Boleh</button><button type="button" class="b-ask" id="g-ask"><span>✋</span>Tanya dulu</button></div>'+
+   '<p class="hint">Situasi '+(gm.i+1)+' dari '+SC.length+'</p>'+audioCtl();
+  bindAudio(); syncSay();
+  $("g-say").addEventListener("click",function(){sfx("pop");speak(S.t);});
+  $("g-yes").addEventListener("click",function(){gameAns("yes");});
+  $("g-ask").addEventListener("click",function(){gameAns("ask");});
+  var OPEN=["Dengar, ya!","Nah, sekarang,","Coba tebak!","Yuk, dengarkan!"];
+  speak((gm.tried?"Yuk, coba lagi! ":OPEN[gm.i%OPEN.length]+" ")+S.t);
+}
+function gameAns(c){
+  var S=SC[gm.i], ok=c===S.a, last=gm.i===SC.length-1, g=$("game");
+  if(ok){
+    var first=!gm.tried; if(first) gm.stars++;
+    gm.res[gm.i]=first?"ok":"help";
+    var cheer=CHEER[Math.floor(Math.random()*CHEER.length)];
+    chime(true); if(first) setTimeout(function(){sfx("star");},420); confetti(first?90:40);
+    g.innerHTML=stars(gm.stars,SC.length,first?gm.stars-1:-1)+dots()+owl("happy")+
+     '<div class="speech bounce-in" style="border-color:#2FA872"><b>'+cheer+(first?" ⭐":"")+'</b> '+esc(S.f)+'</div>'+
+     '<div class="row" style="justify-content:center"><button class="sound" type="button" id="g-rep">🔊 Dengarkan lagi</button><button class="btn btn-pri" type="button" id="g-next">'+(last?"Lihat hadiahku 🎁":"Lanjut →")+'</button></div>';
+    var msg=cheer+" "+S.f;
+    speak(msg,{delay:550});
+    syncSay();$("g-rep").addEventListener("click",function(){sfx("pop");speak(msg);});
+    $("g-next").addEventListener("click",function(){sfx("pop");gm.tried=false;if(last)gameEnd();else{gm.i++;gameShow();}});
+  } else {
+    chime(false);
+    var hint="Eits, hampir! Hmm, belum tepat, "+hi()+". "+HINT[S.a];
+    g.innerHTML=stars(gm.stars,SC.length,-1)+dots()+owl("oops")+
+     '<div class="speech bounce-in" style="border-color:#FFB627"><b>Ups! 🙈</b> '+esc(hint)+'</div>'+
+     '<div class="row" style="justify-content:center"><button class="sound" type="button" id="g-rep">🔊 Dengarkan lagi</button><button class="btn btn-sun" type="button" id="g-retry">Coba lagi 💪</button></div>';
+    g.classList.remove("shake"); void g.offsetWidth; g.classList.add("shake");
+    speak(hint,{delay:500});
+    syncSay();$("g-rep").addEventListener("click",function(){sfx("pop");speak(hint);});
+    $("g-retry").addEventListener("click",function(){sfx("pop");gm.tried=true;gameShow();});
+  }
+}
+function gameEnd(){
+  var n=gm.stars, t=n>=7?"Kamu Anak Pintar Digital!":n>=4?"Kamu hebat, terus belajar, ya!":"Kamu sudah berani mencoba, hebat!";
+  confetti(220); setTimeout(function(){confetti(120);},700);
+  $("game").innerHTML=stars(n,SC.length,-1)+owl("wave")+
+   '<div class="medal bounce-in"><svg viewBox="0 0 160 160" width="130" height="130" aria-hidden="true"><path d="M58 10h44l-10 40H68z" fill="#F25F5C"/><circle cx="80" cy="96" r="54" fill="#FFB627" stroke="#C98500" stroke-width="5"/><circle cx="80" cy="96" r="40" fill="#FFD36B"/><path d="M80 66l9 18 20 3-14 14 3 20-18-9-18 9 3-20-14-14 20-3z" fill="#fff"/></svg>'+
+   '<b>Lencana Anak Pintar Digital</b><span>untuk <b style="font-size:1.1rem">'+esc(hi())+'</b></span><span class="hint">'+n+' bintang dari '+SC.length+' situasi</span></div>'+
+   '<h2 style="font-size:1.7rem">'+t+'</h2>'+
+   '<div class="speech">Ingat kata Si Tanya: kalau ragu, <b>tanya Ayah atau Ibu dulu!</b></div>'+
+   '<div class="row" style="justify-content:center"><button class="btn btn-sun" type="button" id="g-again">Main lagi 🔁</button><button class="btn btn-ghost" type="button" id="g-new">Ganti pemain</button></div>'+
+   '<div class="card" style="text-align:left;width:100%"><b>Catatan untuk orang tua dan guru</b><ul style="margin:6px 0 0;padding-left:20px"><li>Ulangi kalimat "Tanya dulu" dalam keseharian, misalnya sebelum memotret anak.</li><li>Biasakan meminta izin anak sebelum memotret dan mengunggah fotonya. Anak belajar dari contoh.</li><li>Ajak anak bercerita bila ada orang tidak dikenal yang menghubunginya secara daring.</li></ul></div>';
+  sfx("fanfare");
+  speak("Hore! Selamat, "+hi()+"! Kamu mendapat "+n+" bintang. "+t+" Kalau ragu, tanya Ayah atau Ibu dulu! Hu hu!",{delay:1300});
+  $("g-again").addEventListener("click",function(){gm={i:0,stars:0,res:[],tried:false};gameShow();});
+  $("g-new").addEventListener("click",function(){kidName="";musicStop();gm=null;gameIntro();});
+}
+
+/* ================= INIT ================= */
+$("fab-music").addEventListener("click",function(e){e.stopPropagation();if(!audioUnlocked){audioUnlocked=true;try{audio();}catch(x){}setMusic(true);sfx("pop");return;}setMusic(!musicOn);if(musicOn)sfx("pop");});
+document.querySelectorAll("#menu a,.mod,.hero .btn,.brand").forEach(function(a){a.addEventListener("click",function(){sfx("pop");});});
+try{$("hero-owl").innerHTML=owl("wave").replace('class="mascot ','width="112" height="116" class="mascot ');}catch(e){}
+buildCek(); quizIntro(); gameIntro(); route();
+})();
+</script>
+</body>
+</html>
